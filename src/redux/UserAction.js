@@ -1,18 +1,15 @@
 // ADD_USER
-export const addUser = ({ email = "", password = "", address = "", state = "", city = "", zip = "" } = {}) => ({
+export const addUser = ({ name = "", mobile = "", account = "" } = {}) => ({
   type: "ADD_USER",
   user: {
-    email,
-    password,
-    address,
-    state,
-    city,
-    zip
-  }
+    name,
+    mobile,
+    account,
+  },
 });
 
 // REMOVE_USER
-export const removeUser = ({ email } = {}) => ({
-  type: "REMOVE_USER",
-  email
-});
+// export const removeUser = ({ email } = {}) => ({
+//   type: "REMOVE_USER",
+//   email
+// });

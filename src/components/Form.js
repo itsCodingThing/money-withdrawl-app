@@ -1,110 +1,83 @@
 import React from "react";
-import { Col, Row, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { addUser } from "../redux/UserAction";
 
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  paper: {
+    padding: "8px",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  textField: {
+    width: "100%",
+    marginBottom: "20px",
+  },
+}));
+
 const initialState = {
-  name: "",
-  account: "",
-  mobile: "",
+  name: "bhanu",
+  mobile: "6350060561",
+  account: "0123456789",
 };
 
-function checkEmptyInput(values) {
-  let check = values.name !== "" && values.mobile !== "" && values.account !== "";
-  if (check) {
-    return true;
-  } else {
-    alert("Please fill all the input!");
-  }
-}
-
-function checkExistingUser(value, userList) {
-  let flag = false;
-  userList.forEach(user => {
-    if (user.name === value.name && user.account === value.account) {
-      console.log("user already exists!");
-      flag = true;
-    }
-  });
-  return flag;
-}
-
-export default class RegForm extends React.Component {
-  state = {
+function RegistrationForm(props) {
+  const classes = useStyles();
+  const [inputValue, setInputValue] = React.useState({
     ...initialState,
-  };
+  });
 
-  onChangeHandler = e => {
+  const onChangeText = e => {
+    let text = e.target.value;
     let name = e.target.name;
-    let value = e.target.value;
-
-    this.setState(() => ({
-      [name]: value,
-    }));
+    setInputValue({ ...inputValue, [name]: text });
   };
 
-  onSingIn = e => {
-    e.preventDefault();
-    if (checkEmptyInput(this.state) && !checkExistingUser(this.state, this.props.users)) {
-      this.props.dispatch(addUser(this.state));
-      this.setState(() => ({ ...initialState }));
-      console.log("User added to our database👍👍");
-    } else {
-      console.log("There is a problem😢");
-      this.setState(() => ({ ...initialState }));
-    }
+  const onClickSubmit = () => {
+    console.log(inputValue);
+    props.dispatch(addUser(inputValue));
   };
 
-  render() {
-    let { name, mobile, account } = this.state;
-    return (
-      <Form>
-        <Row form>
-          <Col md={6}>
-            <FormGroup>
-              <Label for="nameLabel">Name</Label>
-              <Input
-                type="text"
-                name="name"
-                id="nameLabel"
-                placeholder="Enter your Name"
-                value={name}
-                onChange={this.onChangeHandler}
-              />
-            </FormGroup>
-          </Col>
-          <Col md={6}>
-            <FormGroup>
-              <Label for="moblieLabel">Mobile</Label>
-              <Input
-                type="text"
-                name="mobile"
-                id="mobileLabel"
-                placeholder="Enter your number"
-                value={mobile}
-                onChange={this.onChangeHandler}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <FormGroup>
-          <Label for="accountLabel">Account</Label>
-          <Input
-            type="text"
-            name="account"
-            id="accountLabel"
-            placeholder="Enter your Account"
-            value={account}
-            onChange={this.onChangeHandler}
-          />
-        </FormGroup>
-        <Link to="/login">
-          <Button onClick={this.onSingIn} color="primary">
-            Submit
-          </Button>
-        </Link>
-      </Form>
-    );
-  }
+  return (
+    <Paper className={classes.paper}>
+      <TextField
+        label="Name"
+        name="name"
+        value={inputValue.name}
+        onChange={onChangeText}
+        className={classes.textField}
+      />
+      <TextField
+        label="Mobile"
+        name="mobile"
+        value={inputValue.mobile}
+        onChange={onChangeText}
+        className={classes.textField}
+      />
+      <TextField
+        label="Account"
+        name="account"
+        value={inputValue.account}
+        onChange={onChangeText}
+        className={classes.textField}
+      />
+      <Button variant="contained" color="primary" onClick={onClickSubmit}>
+        Submit
+      </Button>
+    </Paper>
+  );
 }
+
+export default connect()(RegistrationForm);
