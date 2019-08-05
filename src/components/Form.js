@@ -45,9 +45,28 @@ function RegistrationForm(props) {
     setInputValue({ ...inputValue, [name]: text });
   };
 
+  const checkExistingUser = () => {
+    let found = false;
+    props.users.forEach(user => {
+      if (user.account === inputValue.account && user.name === inputValue.name) {
+        found = true;
+      }
+    });
+
+    return found;
+  };
+
   const onClickSubmit = () => {
-    console.log(inputValue);
-    props.dispatch(addUser(inputValue));
+    if (!(inputValue.name === "" && inputValue.mobile === "" && inputValue.account === "")) {
+      if (checkExistingUser()) {
+        alert("User is already Exists!!");
+      } else {
+        console.log(inputValue);
+        props.dispatch(addUser(inputValue));
+      }
+    } else {
+      alert("Please fill all the inputs 🙏");
+    }
   };
 
   return (
@@ -80,4 +99,8 @@ function RegistrationForm(props) {
   );
 }
 
-export default connect()(RegistrationForm);
+const mapStateToProps = state => ({
+  users: state.users,
+});
+
+export default connect(mapStateToProps)(RegistrationForm);

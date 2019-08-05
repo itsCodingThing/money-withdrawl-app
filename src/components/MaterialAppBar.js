@@ -52,7 +52,7 @@ export default function MaterialAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Sab_Kuch_De_Do_Bank
+            Sab_Kuch_Le_Lo_Bank
           </Typography>
         </Toolbar>
       </AppBar>

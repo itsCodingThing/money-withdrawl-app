@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import RegistrationPage from "../pages/RegistrationPage";
 import MaterialAppBar from "../components/MaterialAppBar";
-import AccountBalance from "../pages/AccountBalance";
+import AccountBalancePage from "../pages/AccountBalancePage";
 
 function AppRouter() {
   return (
@@ -11,7 +11,7 @@ function AppRouter() {
       <MaterialAppBar />
       <Switch>
         <Route path="/" component={RegistrationPage} exact={true} />
-        <Route path="/account" component={AccountBalance} />
+        <Route path="/account" component={AccountBalancePage} />
       </Switch>
     </Router>
   );
