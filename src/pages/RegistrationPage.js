@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 
-import Form from "../components/Form";
+import RegistrationForm from "../components/RegistrationForm";
 
 const useStyles = makeStyles({
   page: {
@@ -25,7 +25,7 @@ function RegistrationPage() {
           Registration Form
         </Typography>
         <form className={classes.form}>
-          <Form />
+          <RegistrationForm />
         </form>
       </Container>
     </div>
