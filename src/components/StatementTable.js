@@ -8,6 +8,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,9 +23,29 @@ const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 650,
   },
+  credit: {
+    color: "#2b580c",
+    fontWeight: "bold",
+  },
+  debit: {
+    color: "red",
+    fontWeight: "bold",
+  },
+  grandTotal: {
+    color: "purple",
+    fontWeight: "bolder",
+  },
 }));
 
 function StatementTable(props) {
+  const paddedAction = action => {
+    if (action === "add") {
+      return <span className={classes.credit}>Credit</span>;
+    } else if (action === "withdrawl") {
+      return <span className={classes.debit}>Debit</span>;
+    }
+  };
+
   const classes = useStyles();
   if (props.history.length === 0) {
     return <h4>there is no user history</h4>;
@@ -37,21 +58,29 @@ function StatementTable(props) {
               <TableRow>
                 <TableCell>Date</TableCell>
                 <TableCell align="right">Amount(Rs)</TableCell>
-                <TableCell align="right">Action</TableCell>
+                <TableCell align="right">Debit/Credit</TableCell>
                 <TableCell align="right">Time</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {props.history.map(row => (
+              {props.history.map(user => (
                 <TableRow key={uuid()}>
                   <TableCell component="th" scope="row">
-                    {row.date}
+                    {user.date}
                   </TableCell>
-                  <TableCell align="right">{row.amount}</TableCell>
-                  <TableCell align="right">{row.action}</TableCell>
-                  <TableCell align="right">{row.time}</TableCell>
+                  <TableCell align="right">{user.amount}</TableCell>
+                  <TableCell align="right">{paddedAction(user.action)}</TableCell>
+                  <TableCell align="right">{user.time}</TableCell>
                 </TableRow>
               ))}
+              <TableRow key={uuid()}>
+                <TableCell component="th">
+                  <Typography variant="h6">Grand Total</Typography>
+                </TableCell>
+                <TableCell align="right" className={classes.grandTotal}>
+                  {props.totalAmount}
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </Paper>

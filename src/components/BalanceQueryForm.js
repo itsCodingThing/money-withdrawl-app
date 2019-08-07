@@ -37,6 +37,14 @@ const useStyles = makeStyles({
     width: "150px",
     flexBasis: "200",
   },
+  btnField: {
+    widht: "100px",
+    display: "flex",
+    alignItems: "center",
+  },
+  btn: {
+    margin: "5px",
+  },
 });
 
 function BalanceQueryForm(props) {
@@ -49,6 +57,7 @@ function BalanceQueryForm(props) {
 
   const [history, setHistory] = React.useState({
     history: [],
+    totalAmount: 0,
   });
 
   const onChangeText = e => {
@@ -69,7 +78,12 @@ function BalanceQueryForm(props) {
       if (checkUserExists()) {
         props.users.forEach(user => {
           if (user.account === values.account) {
-            setHistory({ history: [...user.history] });
+            setHistory({ history: [...user.history], totalAmount: user.amount });
+            setValues({
+              account: "",
+              amount: "",
+              action: "",
+            });
           }
         });
       } else {
@@ -92,7 +106,6 @@ function BalanceQueryForm(props) {
     let bal = 0;
     props.users.forEach(user => {
       if (user.account === values.account) {
-        console.log(user.amount);
         bal = user.amount;
       }
     });
@@ -132,7 +145,7 @@ function BalanceQueryForm(props) {
     <Container>
       <div className={classes.fields}>
         <div className={classes.textField}>
-          <TextField label="Account" value={values.name} name="account" onChange={onChangeText} />
+          <TextField label="Account" value={values.account} name="account" onChange={onChangeText} />
         </div>
         <div className={classes.textField}>
           <TextField
@@ -161,14 +174,16 @@ function BalanceQueryForm(props) {
             ))}
           </TextField>
         </div>
-        <Button variant="contained" color="primary" onClick={onClickSubmit}>
-          Submit
-        </Button>
-        <Button variant="contained" color="primary" onClick={onClickHistory}>
-          History
-        </Button>
+        <div className={classes.btnField}>
+          <Button className={classes.btn} size="small" variant="contained" color="primary" onClick={onClickSubmit}>
+            Submit
+          </Button>
+          <Button className={classes.btn} size="small" variant="contained" color="primary" onClick={onClickHistory}>
+            History
+          </Button>
+        </div>
       </div>
-      <StatementTable history={history.history} />
+      <StatementTable history={history.history} totalAmount={history.totalAmount} />
     </Container>
   );
 }
