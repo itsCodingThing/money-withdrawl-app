@@ -1,18 +1,24 @@
-// ADD_USER
-export const addUser = ({ email = "", password = "", address = "", state = "", city = "", zip = "" } = {}) => ({
+export const addUser = ({ name = "", mobile = "", account = "", history = [], amount = 0 } = {}) => ({
   type: "ADD_USER",
   user: {
-    email,
-    password,
-    address,
-    state,
-    city,
-    zip
-  }
+    name,
+    mobile,
+    account,
+    history,
+    amount,
+  },
 });
 
-// REMOVE_USER
-export const removeUser = ({ email } = {}) => ({
-  type: "REMOVE_USER",
-  email
+export const addMoney = ({ account, amount, history }) => ({
+  type: "ADD_MONEY",
+  account,
+  amount,
+  history,
+});
+
+export const withdrawlMoney = ({ account, amount, history }) => ({
+  type: "WITHDRAWL_MONEY",
+  account,
+  amount,
+  history,
 });
